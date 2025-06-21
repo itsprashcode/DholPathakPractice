@@ -3,7 +3,7 @@ body, html {
   padding: 0;
   background: #000;
   color: white;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   height: 100vh;
   overflow: hidden;
 }
@@ -19,17 +19,20 @@ body, html {
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   z-index: 10;
+  justify-content: center;
 }
 
-button {
-  margin: 5px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 10px;
+button, select, input[type="range"] {
+  padding: 10px 14px;
+  border-radius: 8px;
   border: none;
   background-color: #ff6b00;
   color: white;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -46,18 +49,28 @@ button {
 
 #mode-display {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
   z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 10px;
 }
 
-#hit-type {
+.beat-indicator {
   position: absolute;
-  bottom: 90px;
+  top: 60px;
   left: 50%;
   transform: translateX(-50%);
-  height: 100px;
+  font-size: 1.1rem;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 0 12px #ff6b00;
   z-index: 10;
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: 90vw;
 }

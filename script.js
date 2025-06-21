@@ -17,10 +17,35 @@ const dhinSound = new Audio("./asset/dhin.mp3");
 const tunes = [
   {
     name: "Tune 1 - Taak Dhin Dha",
-    sequence: ["thapi", "dhin", "dhin"],
+    sequence: ["taak", "dhin", "dhin"],
     delay: 1500
   },
   // Add more tunes here
+    {
+        name: "Tune 2 - Taak Taak Dhin",
+        sequence: ["taak", "taak", "dhin"],
+        delay: 1500
+    },
+    {
+        name: "Tune 3 - Dhin Taak Dha",
+        sequence: ["dhin", "taak", "dhin"],
+        delay: 1500
+    },
+    {
+        name: "Tune 4 - Dha Dhin Taak",
+        sequence: ["dhin", "dhin", "taak"],
+        delay: 1500
+    },
+    {
+        name: "Tune 5 - taak taak taak dhin taak dhin dhin taak",
+        sequence: ["taak","taak","dhin", "taak","dhin","dhin","taak","dhin","taak"],
+        delay: 1500
+    },
+    {
+        name: "Tune 6 - Dhin Dhin Dhin Taak",
+        sequence: ["dhin", "dhin",  "dhin","taak"],
+        delay: 1500
+    }
 ];
 
 tunes.forEach((tune, index) => {
@@ -68,21 +93,23 @@ function stopTune() {
 function playTune(tune) {
   let i = 0;
   clearTimeout(tuneTimeout);
-
+  
   function playNext() {
     if (i >= tune.sequence.length) {
-      if (loopEnabled) {
+    if (loopEnabled) {
         i = 0;
-      } else {
-        beatIndicator.innerText = '🎵 Done';
+        beatIndicator.innerText = ''; // Clear beat trail on repeat
+    } else {
+        beatIndicator.innerText += '🎵 Done';
         return;
-      }
+    }
     }
 
     const hit = tune.sequence[i];
-    beatIndicator.innerText = `➡️ ${hit.toUpperCase()}`;
+    beatIndicator.innerText += `${hit.toUpperCase()} ➡️ `;
+
     
-        if (hit === "thapi") {
+        if (hit === "taak") {
             new Audio("./asset/Thapi.mp3").play();
         } else if (hit === "dhin") {
             new Audio("./asset/dhin.mp3").play();
