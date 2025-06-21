@@ -15,7 +15,7 @@ const tunes = [
   {
     name: "Tune 1 - Taak Dhin Dha",
     sequence: ["thapi", "dhin", "dhin"],
-    delay: 1300
+    delay: 1500
   },
   // Add more tunes here
 ];
