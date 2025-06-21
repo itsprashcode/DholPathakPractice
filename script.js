@@ -2,7 +2,7 @@ let mode = 'free';
 const dhol = document.getElementById('dhol');
 const modeDisplay = document.getElementById('mode-display');
 
-const thapiSound = new Audio('./asset/thapi.mp3');
+const thapiSound = new Audio('./asset/Thapi.mp3');
 const dhinSound = new Audio('./asset/dhin.mp3');
 
 const hitImage = document.createElement("img");
