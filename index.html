@@ -10,14 +10,18 @@
   <div class="container">
     <!-- Mode Buttons -->
     <div class="mode-buttons">
-  <button onclick="setMode('free')">Free Hand</button>
-  <button onclick="setMode('learn')">Learn Tunes</button>
-  <select id="tune-selector" style="display: none;"></select>
-</div>
+        <button onclick="setMode('free')">Free Hand</button>
+        <button onclick="setMode('learn')">Learn Tunes</button>
+        <select id="tune-selector" style="display:none;"></select>
+        <button id="toggle-loop" style="display:none;" onclick="toggleLoop()">Loop: Off</button>
+        <input type="range" id="bpm-slider" min="60" max="180" value="100" style="display:none;" />
+        <button id="stop-btn" style="display:none;" onclick="stopTune()">Stop</button>
+        <div id="beat-indicator"></div>
+    </div>
 
 
     <!-- Dhol Image -->
-    <img src="./asset/ThapiThoka.jpg" alt="ThapiThoka" id="dhol" />
+    <img src="./asset/ThapiThoka.jpg" src="./asset/thapi.mp3" alt="ThapiThoka" id="dhol" />
 
     <!-- Mode Display -->
     <div id="mode-display">Mode: Free Hand</div>

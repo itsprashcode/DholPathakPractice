@@ -1,16 +1,19 @@
 let mode = 'free';
+let loopEnabled = false;
+let tuneTimeout;
+let bpm = 100;
+
 const dhol = document.getElementById('dhol');
 const modeDisplay = document.getElementById('mode-display');
 const tuneSelector = document.getElementById('tune-selector');
+const toggleLoopBtn = document.getElementById('toggle-loop');
+const bpmSlider = document.getElementById('bpm-slider');
+const stopBtn = document.getElementById('stop-btn');
+const beatIndicator = document.getElementById('beat-indicator');
 
-const thapiSound = new Audio("./asset/thapi.mp3");
+const thapiSound = new Audio("./asset/Thapi.mp3");
 const dhinSound = new Audio("./asset/dhin.mp3");
 
-const hitImage = document.createElement("img");
-hitImage.id = "hit-type";
-document.querySelector('.container').appendChild(hitImage);
-
-// Define configurable tunes
 const tunes = [
   {
     name: "Tune 1 - Taak Dhin Dha",
@@ -20,7 +23,6 @@ const tunes = [
   // Add more tunes here
 ];
 
-// Populate dropdown
 tunes.forEach((tune, index) => {
   const option = document.createElement("option");
   option.value = index;
@@ -31,57 +33,88 @@ tunes.forEach((tune, index) => {
 function setMode(newMode) {
   mode = newMode;
   modeDisplay.innerText = `Mode: ${mode === 'free' ? 'Free Hand' : 'Learn Tunes'}`;
-  tuneSelector.style.display = mode === 'learn' ? 'inline' : 'none';
+  const show = (mode === 'learn');
+  tuneSelector.style.display = show ? 'inline' : 'none';
+  toggleLoopBtn.style.display = show ? 'inline' : 'none';
+  bpmSlider.style.display = show ? 'inline' : 'none';
+  stopBtn.style.display = show ? 'inline' : 'none';
+  beatIndicator.innerText = '';
 
-  if (mode === 'learn') {
+  if (show) {
     playTune(tunes[tuneSelector.value]);
+  } else {
+    stopTune();
   }
 }
 
 tuneSelector.addEventListener('change', () => {
-  if (mode === 'learn') {
-    playTune(tunes[tuneSelector.value]);
-  }
+  if (mode === 'learn') playTune(tunes[tuneSelector.value]);
 });
 
+bpmSlider.addEventListener('input', () => {
+  bpm = bpmSlider.value;
+});
+
+function toggleLoop() {
+  loopEnabled = !loopEnabled;
+  toggleLoopBtn.innerText = `Loop: ${loopEnabled ? 'On' : 'Off'}`;
+}
+
+function stopTune() {
+  clearTimeout(tuneTimeout);
+  beatIndicator.innerText = '';
+}
+
+function playTune(tune) {
+  let i = 0;
+  clearTimeout(tuneTimeout);
+
+  function playNext() {
+    if (i >= tune.sequence.length) {
+      if (loopEnabled) {
+        i = 0;
+      } else {
+        beatIndicator.innerText = '🎵 Done';
+        return;
+      }
+    }
+
+    const hit = tune.sequence[i];
+    beatIndicator.innerText = `➡️ ${hit.toUpperCase()}`;
+    
+        if (hit === "thapi") {
+            new Audio("./asset/Thapi.mp3").play();
+        } else if (hit === "dhin") {
+            new Audio("./asset/dhin.mp3").play();
+        }
+
+
+    dhol.classList.add("animate");
+    setTimeout(() => dhol.classList.remove("animate"), 100);
+
+    i++;
+    const delay = (60000 / bpm); // calculate delay from BPM
+    tuneTimeout = setTimeout(playNext, delay);
+  }
+
+  playNext();
+}
+
 dhol.addEventListener('touchstart', handleTouch);
-dhol.addEventListener('click', handleTouch); // for desktop
+dhol.addEventListener('click', handleTouch);
 
 function handleTouch(event) {
   if (mode !== 'free') return;
 
   const x = event.touches ? event.touches[0].clientX : event.clientX;
   const half = window.innerWidth / 2;
+    if (x < half) {
+    new Audio("./asset/Thapi.mp3").play();
+    } else {
+    new Audio("./asset/dhin.mp3").play();
+    }
 
-  if (x < half) {
-    thapiSound.play();
-  } else {
-    dhinSound.play();
-  }
 
   dhol.classList.add("animate");
   setTimeout(() => dhol.classList.remove("animate"), 100);
-}
-
-function playTune(tune) {
-  let i = 0;
-
-  function playNext() {
-    if (i >= tune.sequence.length) return;
-
-    const hit = tune.sequence[i];
-    if (hit === "thapi") {
-      thapiSound.play();
-    } else if (hit === "dhin") {
-      dhinSound.play();
-    }
-
-    dhol.classList.add("animate");
-    setTimeout(() => dhol.classList.remove("animate"), 100);
-
-    i++;
-    setTimeout(playNext, tune.delay);
-  }
-
-  playNext();
 }
