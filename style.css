@@ -24,6 +24,8 @@ body, html {
   gap: 8px;
   z-index: 10;
   justify-content: center;
+  margin-bottom: 20px;
+
 }
 
 button, select, input[type="range"] {
@@ -61,7 +63,7 @@ button, select, input[type="range"] {
 
 .beat-indicator {
   position: absolute;
-  top: 60px;
+  top: 70px; /* adjust as per button height */
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.1rem;
@@ -69,8 +71,9 @@ button, select, input[type="range"] {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   box-shadow: 0 0 12px #ff6b00;
-  z-index: 10;
+  z-index: 5;
   white-space: nowrap;
   overflow-x: auto;
   max-width: 90vw;
+  top: 20%;
 }
